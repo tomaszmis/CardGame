@@ -6,7 +6,7 @@ public class CardCollection{
 	private String label;
 	protected ArrayList<Card> cards;
 	
-	private Random generator = new Random();
+	
 	
 	public CardCollection(String label) {
 		this.label = label;
@@ -67,23 +67,20 @@ public class CardCollection{
 	 */
 	void swapCards(int firstIndex, int secondIndex) {
 		Card temp = cards.get(firstIndex);
-		cards.add(firstIndex, cards.get(secondIndex)); 
-		cards.add(secondIndex,temp);
+		cards.set(firstIndex, cards.get(secondIndex)); 
+		cards.set(secondIndex,temp);
 	}
 	
-	/*
-	 * Support method which return integer form range of low to high.
-	 */
-	int randomInt(int low, int high) {
-		return generator.nextInt(high - low + 1) + low; 
-	}
+
 	
 	/*
 	 * It shuffle the deck.
 	 */
 	public void shuffle() {
 		for(int i = 0; i < cards.size(); ++i) {
-			swapCards(i, randomInt(i,cards.size() - 1));
+			Random generator = new Random();
+			int j = generator.nextInt(size() - 1); 
+			swapCards(i, j);
 		}
 	}
 }

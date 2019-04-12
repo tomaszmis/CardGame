@@ -9,11 +9,25 @@ public class Player {
 	}
 	
 	public Card play(Eights eights, Card prev) {
-		Card card = searchForMatch(prev);
+		
+		Card card = searchForEight();
 		if(card == null) {
-			card  = drawForMatch(eights, prev);
+			card = searchForMatch(prev);
+			if(card == null) {
+				card  = drawForMatch(eights, prev);	
+			}
 		}
 		return card;
+	}
+	
+	public Card searchForEight() {
+		for(int i = 0; i < hand.size(); ++i) {
+			Card card = hand.getCard(i);
+			if(card.getRank() == 8) {
+				return hand.popCard(i);
+			}
+		}
+		return null;
 	}
 	
 	public Card searchForMatch(Card prev) {
@@ -71,7 +85,7 @@ public class Player {
 	}
 	
 	public void display() {
-		System.out.println("Gracz " + name);
+		System.out.println("Gracz " + name + " Liczba kart w rêce: " + hand.size() + " Wynik to " + score());
 	}
 	
 	public String getName() {

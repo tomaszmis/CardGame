@@ -46,8 +46,11 @@ public class Eights {
 	}
 	
 	public Player nextPlayer(Player current) {
-		
-		return (current == one) ? two : one;
+		if(current == one) {
+			return two;
+		}else {
+			return one;
+		}
 	}
 	
 	public void displayState() {
@@ -80,7 +83,7 @@ public class Eights {
 			displayState();
 			waitForUser();
 			takeTurn(player);
-			nextPlayer(player);
+			player = nextPlayer(player);
 		}
 		
 		one.displayScore();
