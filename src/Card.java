@@ -1,10 +1,11 @@
 
 public class Card {
-	private int rank;
-	private int suit;
+	private final int rank;
+	private final int suit;
 	
 	public static final String[] RANKS = {null, "2", "3", "4", "5", "6", "7", "8", "9", "10", "walet", "dama", "król", "as"};
 	public static final String[] SUITS = {"trefl", "karo", "kier", "pik"};
+	
 	
 	public Card(int rank, int suit) {
 		this.rank = rank;
@@ -78,4 +79,7 @@ public class Card {
 		}
 		return false;
 	}
+	
+
+
 }
