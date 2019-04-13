@@ -1,8 +1,8 @@
+
 import java.util.Scanner;
 
 public class Eights {
-	private Player one;
-	private Player two;
+	private Players players;
 	private Hand drawPile;
 	private Hand discardPile;
 	private Scanner in;
@@ -11,12 +11,14 @@ public class Eights {
 	public Eights() {
 		Deck deck = new Deck("Talia");
 		deck.shuffle();
-		
+		players = new Players("players");
 		int handSize = 5;
-		one = new Player("Adam");
-		deck.deal(one.getHand(), handSize);
-		two = new Player("Cezary");
-		deck.deal(two.getHand(), handSize);
+		int numberOfPlayers = setNumberOfPlayers();
+		for(int i = 0; i < numberOfPlayers; ++i) {
+			Player player = new Player("player_" + (i + 1));
+			players.addPlayer(player);
+			deck.deal(players.getPlayer(i).getHand(), handSize);
+		}
 		
 		discardPile = new Hand("Wyrzucone");
 		deck.deal(discardPile, 1);
@@ -26,9 +28,23 @@ public class Eights {
 		
 		in = new Scanner(System.in);
 	}
+	/*
+	 * Get from user count of players, if number will be less then two, return 2, else return count;
+	 */
+	public int setNumberOfPlayers() {
+		in = new Scanner(System.in);
+		System.out.println("Podaj liczbê graczy");
+		int Number = in.nextInt();
+		return (Number < 2) ? 2 : Number;
+	}
 	
 	public boolean isDone() {
-		return one.getHand().empty() || two.getHand().empty();
+		for(int i = 0; i < players.size(); ++i) {
+			if(players.getPlayer(i).getHand().empty()) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public void reshuffle() {
@@ -45,17 +61,22 @@ public class Eights {
 		return drawPile.popCard();
 	}
 	
+	
+	
 	public Player nextPlayer(Player current) {
-		if(current == one) {
-			return two;
+		
+		int currentIndex = players.getIndex(current);
+		if(currentIndex == players.size() - 1) {
+			return players.getPlayer(0);
 		}else {
-			return one;
+			return players.getPlayer(currentIndex + 1);
 		}
 	}
 	
 	public void displayState() {
-		one.display();
-		two.display();
+		for(int i = 0; i < players.size(); ++i) {
+			players.getPlayer(i).display();
+		}
 		
 		discardPile.display();
 		
@@ -77,7 +98,7 @@ public class Eights {
 	}
 	
 	public void playGame() {
-		Player player = one;
+		Player player = players.getPlayer(0);
 		
 		while(!isDone()){
 			displayState();
@@ -86,8 +107,9 @@ public class Eights {
 			player = nextPlayer(player);
 		}
 		
-		one.displayScore();
-		two.displayScore();
+		for(int i = 0; i < players.size(); ++i) {
+			players.getPlayer(i).displayScore();
+		}
 		
 	}
 	
