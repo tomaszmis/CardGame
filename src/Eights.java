@@ -1,6 +1,11 @@
 
 import java.util.Scanner;
-
+/**
+ * 
+ * @author Tomasz Miœ
+ * @version 1.0
+ *
+ */
 public class Eights {
 	private Players players;
 	private Hand drawPile;
