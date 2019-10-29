@@ -2,7 +2,7 @@
 import java.util.Scanner;
 /**
  * 
- * @author Tomasz Miœ
+ * @author Tomasz Mi?
  * @version 1.0
  * Main class which provides essential methods to play a Eights.
  */
@@ -89,11 +89,11 @@ public class Eights {
 	
 	
 	/**
-	 * Switch player in game.
+	 * Switch player(threads) in game.
 	 * @param current - player who last push card on discard pile.
 	 * @return - next player
 	 */
-	public Player nextPlayer(Player current) {
+	synchronized public Player nextPlayer(Player current) {
 		
 		int currentIndex = players.getIndex(current);
 		if(currentIndex == players.size() - 1) {

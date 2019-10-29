@@ -1,10 +1,11 @@
 /**
  * 
  * @author Tomasz Miœ
- * @version 1.0
+ * @version 1.1
  * Represent one player and provide methods to play in Eights.
+ * Each player is thread in the game. For decide who play now  class Eights provide synchronized method next player.
  */
-public class Player {
+public class Player extends Thread {
 	/**
 	 * Name of player
 	 */
@@ -20,6 +21,7 @@ public class Player {
 	public Player(String name) {
 		this.name = name;
 		this.hand = new Hand(name);
+		this.start();
 	}
 	/**
 	 * Method which finally return card to discard pile.
@@ -134,7 +136,8 @@ public class Player {
 	 * Getter return name of player.
 	 * @return - name of player.
 	 */
-	public String getName() {
+
+	public String getPlayerName() {
 		return name;
 	}
 	/**
