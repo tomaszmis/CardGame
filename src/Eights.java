@@ -1,4 +1,7 @@
 
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.Scanner;
 /**
  * 
@@ -22,19 +25,22 @@ public class Eights {
 	/**
 	 * Thanks <code>in</code> program read number of players and in simulation read next move (Enter).
 	 */
+	private PrintWriter output;
 	private Scanner in;
-	
+    Socket socket;
+
+
 	/**
 	 * Constructor <code>Eights</code> create deck for each player and draw pile and discard pile.
 	 */
-	public Eights() {
+	/*public Eights() {
 		Deck deck = new Deck("Talia");
 		deck.shuffle();
 		players = new Players("players");
 		int handSize = 5;
 		int numberOfPlayers = setNumberOfPlayers();
 		for(int i = 0; i < numberOfPlayers; ++i) {
-			Player player = new Player("player_" + (i + 1));
+			Player player = new Player("player_" + (i + 1),output);
 			players.addPlayer(player);
 			deck.deal(players.getPlayer(i).getHand(), handSize);
 		}
@@ -46,24 +52,26 @@ public class Eights {
 		deck.dealAll(drawPile);
 		
 		in = new Scanner(System.in);
-	}
-	public Eights(Player player, int numberOfPlayers){
+	}*/
+	public Eights(Player player, int numberOfPlayers, PrintWriter output){
+
+		this.output = output;
 		Deck deck = new Deck("Talia");
 		deck.shuffle();
-		players = new Players("players");
+		players = new Players("players",output);
 		int handSize = 5;
 		players.addPlayer(player);
 		deck.deal(player.getHand(), handSize);
 		for(int i = 1; i < numberOfPlayers; i++){
-			Player computer = new Player("player_" + (i+1));
+			Player computer = new Player("player_" + (i+1),output);
 			players.addPlayer(computer);
 			deck.deal(players.getPlayer(i).getHand(), handSize);
 		}
 
-		discardPile = new Hand("Wyrzucone");
+		discardPile = new Hand("Wyrzucone",output);
 		deck.deal(discardPile, 1);
 
-		drawPile = new Hand("Stos ci?gni?cia");
+		drawPile = new Hand("Stos ciagnigcia",output);
 		deck.dealAll(drawPile);
 
 		in = new Scanner(System.in);
@@ -74,7 +82,7 @@ public class Eights {
 	 */
 	public int setNumberOfPlayers() {
 		in = new Scanner(System.in);
-		System.out.println("Podaj liczbê graczy");
+		output.println("Podaj liczbê graczy");
 		int Number = in.nextInt();
 		return (Number < 2) ? 2 : Number;
 	}
@@ -134,8 +142,8 @@ public class Eights {
 		
 		discardPile.display();
 		
-		System.out.println("Stos ciagniecia:");
-		System.out.println(drawPile.size() + " kart");
+		output.println("Stos ciagniecia:");
+		output.println(drawPile.size() + " kart");
 	}
 	/**
 	 * Wait for <code>Enter</code> in console.
@@ -156,10 +164,10 @@ public class Eights {
 
 				discardPile.addCard(next);
 
-				System.out.println(player.getName() + " gra " + next);
-				System.out.println();
+				output.println(player.getName() + " gra " + next);
+				output.println();
 			} catch (Exception ie) {
-				System.out.println("Cos poszlo nie tak");
+				output.println("Cos poszlo nie tak");
 			}
 		}
 		else {
@@ -167,8 +175,8 @@ public class Eights {
 			Card next = player.play(this, prev);
 			discardPile.addCard(next);
 
-			System.out.println(player.getName() + " gra " + next);
-			System.out.println();
+			output.println(player.getName() + " gra " + next);
+			output.println();
 		}
 	}
 	/**

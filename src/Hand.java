@@ -1,16 +1,22 @@
+import java.io.PrintWriter;
 
 public class Hand extends CardCollection {
-	
-	public Hand(String label) {
+
+	private PrintWriter output;
+	public Hand(String label, PrintWriter output) {
 		super(label);
+		this.output = output;
+
 	}
+
+//	public Hand(String label) { super(label); }
 	
 	public void display() {
-		System.out.println(getLable() + ": ");
+		output.println(getLable() + ": ");
 		for(int i = 0; i < size(); ++i) {
-			System.out.print(i + " - " + getCard(i) + " ");
+			output.print(i + " - " + getCard(i) + " ");
 		}
-		System.out.println();
+		output.println();
 	}
 	
 	

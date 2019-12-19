@@ -5,11 +5,12 @@ import java.util.Scanner;
  * @author Tomasz Miœ
  * @version 1.0
  */
+/*
 public class Test  {
-/**
+/*
  * This method plays a game.
  * @param args - String which can be take from console.
- */
+ *//*
     public static void main(String[] args) {
 
         String nick;
@@ -25,9 +26,9 @@ public class Test  {
                 Runnable gamethread = () -> {
                     Player player = new Player(nick);
                     System.out.println("Game is already running.");
-                    Eights game = new Eights(player,numberOfPlayers);
-                    game.playGame();
+                    //Eights game = new Eights(player,numberOfPlayers);
+                    //game.playGame();
                 };
                 new Thread(gamethread).start();
     }
-}
+}*/

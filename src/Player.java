@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.sql.SQLOutput;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -26,9 +27,20 @@ public class Player extends Thread {
 	 * Create new player
 	 * @param name - name of player
 	 */
-	public Player(String name) {
+	protected PrintWriter output;
+	private Scanner input;
+	public Player(String name, PrintWriter output, Scanner input) {
+		this.output = output;
+		this.input = input;
 		this.name = name;
-		this.hand = new Hand(name);
+		this.hand = new Hand(name,output);
+		this.start();
+	}
+
+	public Player(String name,PrintWriter output) {
+		this.output = output;
+		this.name = name;
+		this.hand = new Hand(name,output);
 		this.start();
 	}
 	/**
@@ -51,24 +63,23 @@ public class Player extends Thread {
 	public synchronized Card playOwn(Eights eights, Card prev) throws Exception {
 		this.hand.display();
 		int choice = 0;
-		String ch = "";
-		Card returned = null;
-		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
-		ch = in.readLine();
-		choice = Integer.parseInt(ch);
+		Card returned = null;
+		output.println("Twoja tura, wybierz numer karty");
+		choice = input.nextInt();
+
 		Card card = null;
 
-		System.out.println(choice);
+		output.println(choice);
 
 
 		if (choice == 99) {
-			System.out.println("Ciagniesz do skutku");
+			output.println("Ciagniesz do skutku");
 			returned = drawForMatch(eights, prev);
 		} else {
-			System.out.println("Wybrales karte numer: " + choice);
+			output.println("Wybrales karte numer: " + choice);
 			card = hand.getCard(choice);
-			System.out.println("rank: " + card.getRank());
+			output.println("rank: " + card.getRank());
 
 
 			if (isEight(card)) {
@@ -124,7 +135,7 @@ public class Player extends Thread {
 	public Card drawForMatch(Eights eights, Card prev) {
 		while(true) {
 			Card card = eights.draw();
-			System.out.println(name + " wyci¹gnal " + card);
+			output.println(name + " wyci¹gnal " + card);
 			if(cardMatches(card, prev)) {
 				return card;
 			}
@@ -172,13 +183,13 @@ public class Player extends Thread {
 	 * Write in console score.
 	 */
 	public void displayScore() {
-		System.out.println("Wynik: " + name + " to " + score());
+		output.println("Wynik: " + name + " to " + score());
 	}
 	/**
 	 * Display all information about player name, count of cards in hand and score.
 	 */
 	public void display() {
-		System.out.println("Gracz " + name + " Liczba kart w rêce: " + hand.size() + " Wynik to " + score());
+		output.println("Gracz " + name + " Liczba kart w rêce: " + hand.size() + " Wynik to " + score());
 	}
 	/**
 	 * Getter return name of player.

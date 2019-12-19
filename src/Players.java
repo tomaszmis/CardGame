@@ -1,3 +1,4 @@
+import java.io.PrintWriter;
 import java.util.ArrayList;
 /**
  * 
@@ -14,8 +15,8 @@ public class Players extends Player {
 	 * Create list of players
 	 * @param name new player
 	 */
-	public Players(String name) {
-		super(name);
+	public Players(String name, PrintWriter output) {
+		super(name,output);
 		this.players = new ArrayList<Player>();
 	}
 	/**

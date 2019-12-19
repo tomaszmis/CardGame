@@ -1,3 +1,4 @@
+
 import java.io.*;
 import java.net.*;
 import java.util.Scanner;
@@ -24,10 +25,15 @@ public class Client {
 
             in = new Scanner(s.getInputStream());
             out = new PrintWriter(s.getOutputStream(),true);
+            String msgFromServer;
+            while (true) {
+                msgFromServer = in.nextLine();
+                System.out.println(msgFromServer);
+                    if(msgFromServer == "Podaj nick") {
+                        out.println(scanner.nextLine());
+                    } else if(msgFromServer == "Twoja tura, wybierz numer karty"){
 
-            while (scanner.hasNextLine()) {
-                out.println(scanner.nextLine());
-                System.out.println(in.nextLine());
+                    }else continue;
             }
 
 
@@ -38,6 +44,10 @@ public class Client {
         }
 
         // Main loop
+
+
+
+
 
     }
 }

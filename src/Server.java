@@ -1,3 +1,4 @@
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -30,19 +31,22 @@ public class Server {
                     s = ss.accept();
 
                     System.out.println("New client connected on: " + s);
-                    Scanner input = new Scanner(s.getInputStream());
                     PrintWriter output = new PrintWriter(s.getOutputStream(),true);
-                    while (input.hasNextLine()) {
-                        output.println("Podaj nick");
-                        Player player = new Player(input.nextLine());
-                        output.println("Twoj nick to: " + player.getPlayerName());
-                        System.out.println("Game is already running.");
-                        Eights game = new Eights(player,3);
+                    output.println("Podaj nick");
+                    Scanner input = new Scanner(s.getInputStream());
+
+
+                    while (true) {
+                        Player player = new Player(input.nextLine(),output,input);
+                        System.out.println("Twoj nick to: " + player.getPlayerName());
+                        output.println("Game is already running.");
+                        Eights game = new Eights(player,3,output);
                         game.playGame();
                     }
 
 
                 } catch (Exception e){
+                    System.out.println(e.getMessage());
                     try {
                         s.close();
                     } catch (IOException e1) {
@@ -52,4 +56,3 @@ public class Server {
             }
         }
 }
-
