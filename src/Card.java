@@ -18,7 +18,7 @@ public class Card {
 	/**
 	 * This array represent all exist ranks, to easy use first rank that is <code>2</code> have index <code>1</code>.
 	 */
-	public static final String[] RANKS = {null, "2", "3", "4", "5", "6", "7", "8", "9", "10", "walet", "dama", "król", "as"};
+	public static final String[] RANKS = {null, null, "2", "3", "4", "5", "6", "7", "8", "9", "10", "walet", "dama", "król", "as"};
 	/**
 	 * This array represent all exist suits.
 	 */

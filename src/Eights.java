@@ -42,11 +42,33 @@ public class Eights {
 		discardPile = new Hand("Wyrzucone");
 		deck.deal(discardPile, 1);
 		
-		drawPile = new Hand("Stos ci¹gniêcia");
+		drawPile = new Hand("Stos ci?gni?cia");
 		deck.dealAll(drawPile);
 		
 		in = new Scanner(System.in);
 	}
+	public Eights(Player player, int numberOfPlayers){
+		Deck deck = new Deck("Talia");
+		deck.shuffle();
+		players = new Players("players");
+		int handSize = 5;
+		players.addPlayer(player);
+		deck.deal(player.getHand(), handSize);
+		for(int i = 1; i < numberOfPlayers; i++){
+			Player computer = new Player("player_" + (i+1));
+			players.addPlayer(computer);
+			deck.deal(players.getPlayer(i).getHand(), handSize);
+		}
+
+		discardPile = new Hand("Wyrzucone");
+		deck.deal(discardPile, 1);
+
+		drawPile = new Hand("Stos ci?gni?cia");
+		deck.dealAll(drawPile);
+
+		in = new Scanner(System.in);
+	}
+
 	/*
 	 * Get from user count of players, if number from user will be less then two, return 2, else return count;
 	 */
@@ -112,7 +134,7 @@ public class Eights {
 		
 		discardPile.display();
 		
-		System.out.println("Stos ci¹gniêcia:");
+		System.out.println("Stos ciagniecia:");
 		System.out.println(drawPile.size() + " kart");
 	}
 	/**
@@ -125,13 +147,29 @@ public class Eights {
 	 * Turn current player, bring {@link #players.play}
 	 * @param player = current player
 	 */
-	public void takeTurn(Player player) {
-		Card prev = discardPile.last();
-		Card next = player.play(this, prev);
-		discardPile.addCard(next);
-		
-		System.out.println(player.getName() + " gra " + next);
-		System.out.println();
+	synchronized public void takeTurn(Player player) {
+		if(players.getIndex(player) == 0){
+			try{
+				Card prev = discardPile.last();
+
+				Card next = player.playOwn(this, prev);
+
+				discardPile.addCard(next);
+
+				System.out.println(player.getName() + " gra " + next);
+				System.out.println();
+			} catch (Exception ie) {
+				System.out.println("Cos poszlo nie tak");
+			}
+		}
+		else {
+			Card prev = discardPile.last();
+			Card next = player.play(this, prev);
+			discardPile.addCard(next);
+
+			System.out.println(player.getName() + " gra " + next);
+			System.out.println();
+		}
 	}
 	/**
 	 * Main method in which play a Game.
@@ -141,7 +179,7 @@ public class Eights {
 		
 		while(!isDone()){
 			displayState();
-			waitForUser();
+			//waitForUser();
 			takeTurn(player);
 			player = nextPlayer(player);
 		}

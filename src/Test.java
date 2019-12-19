@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 /**
  * This class tests the game.
  * @author Tomasz Miœ
@@ -10,9 +12,20 @@ public class Test  {
  */
     public static void main(String[] args) {
 
+        String nick;
+        int numberOfPlayers;
+        System.out.println("Podaj nick: ");
+        Scanner in = new Scanner(System.in);
+        nick = in.nextLine();
+        System.out.println("Podaj liczbê graczy");
+        numberOfPlayers = in.nextInt();
+        in.close();
+
+
                 Runnable gamethread = () -> {
+                    Player player = new Player(nick);
                     System.out.println("Game is already running.");
-                    Eights game = new Eights();
+                    Eights game = new Eights(player,numberOfPlayers);
                     game.playGame();
                 };
                 new Thread(gamethread).start();

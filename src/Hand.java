@@ -8,7 +8,7 @@ public class Hand extends CardCollection {
 	public void display() {
 		System.out.println(getLable() + ": ");
 		for(int i = 0; i < size(); ++i) {
-			System.out.println(getCard(i));
+			System.out.print(i + " - " + getCard(i) + " ");
 		}
 		System.out.println();
 	}

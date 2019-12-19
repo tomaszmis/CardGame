@@ -1,3 +1,11 @@
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.sql.SQLOutput;
+import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.zip.InflaterInputStream;
+
 /**
  * 
  * @author Tomasz Miœ
@@ -40,6 +48,46 @@ public class Player extends Thread {
 		}
 		return card;
 	}
+	public synchronized Card playOwn(Eights eights, Card prev) throws Exception {
+		this.hand.display();
+		int choice = 0;
+		String ch = "";
+		Card returned = null;
+		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+
+		ch = in.readLine();
+		choice = Integer.parseInt(ch);
+		Card card = null;
+
+		System.out.println(choice);
+
+
+		if (choice == 99) {
+			System.out.println("Ciagniesz do skutku");
+			returned = drawForMatch(eights, prev);
+		} else {
+			System.out.println("Wybrales karte numer: " + choice);
+			card = hand.getCard(choice);
+			System.out.println("rank: " + card.getRank());
+
+
+			if (isEight(card)) {
+				return hand.popCard(choice);
+			}
+			if (cardMatches(card, prev)) {
+				return  hand.popCard(choice);
+			} else {
+				return playOwn(eights, prev);
+			}
+		}
+
+		return returned;
+	}
+
+	public boolean isEight(Card card){
+		if(card.getRank() == 8) return true;
+		return false;
+	}
 	/**
 	 * Looking for card which rank is 8, if is return it else return null.
 	 * @return
@@ -76,7 +124,7 @@ public class Player extends Thread {
 	public Card drawForMatch(Eights eights, Card prev) {
 		while(true) {
 			Card card = eights.draw();
-			System.out.println(name + " wyci¹gn¹³ " + card);
+			System.out.println(name + " wyci¹gnal " + card);
 			if(cardMatches(card, prev)) {
 				return card;
 			}
