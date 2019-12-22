@@ -1,8 +1,9 @@
-import java.io.PrintWriter;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+
 /**
  * 
- * @author Tomasz Miœ
+ * @author Tomasz Miï¿½
  * @version 1.0
  * Store information about few players
  */
@@ -15,7 +16,7 @@ public class Players extends Player {
 	 * Create list of players
 	 * @param name new player
 	 */
-	public Players(String name, PrintWriter output) {
+	public Players(String name, ObjectOutputStream output) {
 		super(name,output);
 		this.players = new ArrayList<Player>();
 	}

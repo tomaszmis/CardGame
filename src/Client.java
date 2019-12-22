@@ -1,53 +1,28 @@
+import java.io.Serializable;
+import java.util.function.Consumer;
 
-import java.io.*;
-import java.net.*;
-import java.util.Scanner;
+public class Client extends NetworkConnectionClient {
 
-public class Client {
-    public static void main(String[] args) {
+    private String ip;
+    private int port;
 
-        InetAddress ip;
-        Socket s;
-        Scanner in;
-        PrintWriter out;
+    public Client(String ip, int port,Consumer<Serializable> onReciveCallback){
+        super(onReciveCallback);
+        this.ip = ip;
+        this.port = port;
+    }
+    @Override
+    protected boolean isServer() {
+        return false;
+    }
 
+    @Override
+    protected String getIP() {
+        return ip;
+    }
 
-
-
-        try
-        {
-
-            ip = InetAddress.getByName("localhost");
-            s = new Socket(ip, 16421);
-            System.out.println("Enter lines of text then Ctrl+D or Ctrl+C to quit");
-
-            Scanner scanner = new Scanner(System.in);
-
-            in = new Scanner(s.getInputStream());
-            out = new PrintWriter(s.getOutputStream(),true);
-            String msgFromServer;
-            while (true) {
-                msgFromServer = in.nextLine();
-                System.out.println(msgFromServer);
-                    if(msgFromServer == "Podaj nick") {
-                        out.println(scanner.nextLine());
-                    } else if(msgFromServer == "Twoja tura, wybierz numer karty"){
-
-                    }else continue;
-            }
-
-
-
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-        // Main loop
-
-
-
-
-
+    @Override
+    protected int getPort() {
+        return port;
     }
 }

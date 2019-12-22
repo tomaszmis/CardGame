@@ -1,9 +1,9 @@
-import java.io.PrintWriter;
+import java.io.ObjectOutputStream;
 
 public class Hand extends CardCollection {
 
-	private PrintWriter output;
-	public Hand(String label, PrintWriter output) {
+	private ObjectOutputStream output;
+	public Hand(String label, ObjectOutputStream output) {
 		super(label);
 		this.output = output;
 
@@ -11,12 +11,12 @@ public class Hand extends CardCollection {
 
 //	public Hand(String label) { super(label); }
 	
-	public void display() {
-		output.println(getLable() + ": ");
+	public void display() throws Exception {
+		output.writeObject(getLable() + ": ");
 		for(int i = 0; i < size(); ++i) {
-			output.print(i + " - " + getCard(i) + " ");
+			output.writeObject(i + " - " + getCard(i) + " ");
 		}
-		output.println();
+
 	}
 	
 	

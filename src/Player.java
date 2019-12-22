@@ -1,15 +1,9 @@
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.sql.SQLOutput;
-import java.util.Scanner;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.zip.InflaterInputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 /**
  * 
- * @author Tomasz Miœ
+ * @author Tomasz Miï¿½
  * @version 1.1
  * Represent one player and provide methods to play in Eights.
  * Each player is thread in the game. For decide who play now  class Eights provide synchronized method next player.
@@ -27,17 +21,19 @@ public class Player extends Thread {
 	 * Create new player
 	 * @param name - name of player
 	 */
-	protected PrintWriter output;
-	private Scanner input;
-	public Player(String name, PrintWriter output, Scanner input) {
+	protected ObjectOutputStream output;
+	protected Thread thread;
+	protected ObjectInputStream in;
+	public Player(String name, ObjectOutputStream output, ObjectInputStream in, Thread thread) {
 		this.output = output;
-		this.input = input;
+		this.in = in;
+		this.thread = thread;
 		this.name = name;
 		this.hand = new Hand(name,output);
 		this.start();
 	}
 
-	public Player(String name,PrintWriter output) {
+	public Player(String name,ObjectOutputStream output) {
 		this.output = output;
 		this.name = name;
 		this.hand = new Hand(name,output);
@@ -55,7 +51,9 @@ public class Player extends Thread {
 		if(card == null) {
 			card = searchForMatch(prev);
 			if(card == null) {
-				card  = drawForMatch(eights, prev);	
+				try {
+					card = drawForMatch(eights, prev);
+				}catch(Exception e){}
 			}
 		}
 		return card;
@@ -65,21 +63,20 @@ public class Player extends Thread {
 		int choice = 0;
 
 		Card returned = null;
-		output.println("Twoja tura, wybierz numer karty");
-		choice = input.nextInt();
-
+		output.writeObject("Twoja tura, wybierz numer karty");
+		choice = (Integer)thread.read() ;
 		Card card = null;
 
-		output.println(choice);
+		output.writeObject(choice);
 
 
 		if (choice == 99) {
-			output.println("Ciagniesz do skutku");
+			output.writeObject("Ciagniesz do skutku");
 			returned = drawForMatch(eights, prev);
 		} else {
-			output.println("Wybrales karte numer: " + choice);
+			output.writeObject("Wybrales karte numer: " + choice);
 			card = hand.getCard(choice);
-			output.println("rank: " + card.getRank());
+			output.writeObject("rank: " + card.getRank());
 
 
 			if (isEight(card)) {
@@ -132,10 +129,10 @@ public class Player extends Thread {
 	 * @param prev - last card on discard pile
 	 * @return - matches card
 	 */
-	public Card drawForMatch(Eights eights, Card prev) {
+	public Card drawForMatch(Eights eights, Card prev) throws Exception {
 		while(true) {
 			Card card = eights.draw();
-			output.println(name + " wyci¹gnal " + card);
+			output.writeObject(name + " wyciï¿½gnal " + card);
 			if(cardMatches(card, prev)) {
 				return card;
 			}
@@ -182,14 +179,14 @@ public class Player extends Thread {
 	/**
 	 * Write in console score.
 	 */
-	public void displayScore() {
-		output.println("Wynik: " + name + " to " + score());
+	public void displayScore() throws Exception {
+		output.writeObject("Wynik: " + name + " to " + score());
 	}
 	/**
 	 * Display all information about player name, count of cards in hand and score.
 	 */
-	public void display() {
-		output.println("Gracz " + name + " Liczba kart w rêce: " + hand.size() + " Wynik to " + score());
+	public void display() throws Exception {
+		output.writeObject("Gracz " + name + " Liczba kart w rï¿½ce: " + hand.size() + " Wynik to " + score());
 	}
 	/**
 	 * Getter return name of player.

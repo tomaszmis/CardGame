@@ -1,8 +1,6 @@
-import java.util.Scanner;
-
 /**
  * This class tests the game.
- * @author Tomasz Miœ
+ * @author Tomasz Miï¿½
  * @version 1.0
  */
 /*
@@ -18,7 +16,7 @@ public class Test  {
         System.out.println("Podaj nick: ");
         Scanner in = new Scanner(System.in);
         nick = in.nextLine();
-        System.out.println("Podaj liczbê graczy");
+        System.out.println("Podaj liczbï¿½ graczy");
         numberOfPlayers = in.nextInt();
         in.close();
 

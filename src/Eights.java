@@ -1,8 +1,8 @@
 
-import java.io.PrintWriter;
-import java.net.ServerSocket;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
+
 /**
  * 
  * @author Tomasz Mi?
@@ -25,7 +25,7 @@ public class Eights {
 	/**
 	 * Thanks <code>in</code> program read number of players and in simulation read next move (Enter).
 	 */
-	private PrintWriter output;
+	private ObjectOutputStream output;
 	private Scanner in;
     Socket socket;
 
@@ -33,27 +33,27 @@ public class Eights {
 	/**
 	 * Constructor <code>Eights</code> create deck for each player and draw pile and discard pile.
 	 */
-	/*public Eights() {
+	public Eights() {
 		Deck deck = new Deck("Talia");
 		deck.shuffle();
-		players = new Players("players");
+		players = new Players("players",output);
 		int handSize = 5;
-		int numberOfPlayers = setNumberOfPlayers();
+		int numberOfPlayers = 3;
 		for(int i = 0; i < numberOfPlayers; ++i) {
 			Player player = new Player("player_" + (i + 1),output);
 			players.addPlayer(player);
 			deck.deal(players.getPlayer(i).getHand(), handSize);
 		}
 		
-		discardPile = new Hand("Wyrzucone");
+		discardPile = new Hand("Wyrzucone",output);
 		deck.deal(discardPile, 1);
 		
-		drawPile = new Hand("Stos ci?gni?cia");
+		drawPile = new Hand("Stos ci?gni?cia",output);
 		deck.dealAll(drawPile);
 		
 		in = new Scanner(System.in);
-	}*/
-	public Eights(Player player, int numberOfPlayers, PrintWriter output){
+	}
+	public Eights(Player player, int numberOfPlayers, ObjectOutputStream output){
 
 		this.output = output;
 		Deck deck = new Deck("Talia");
@@ -80,9 +80,9 @@ public class Eights {
 	/*
 	 * Get from user count of players, if number from user will be less then two, return 2, else return count;
 	 */
-	public int setNumberOfPlayers() {
+	public int setNumberOfPlayers() throws Exception{
 		in = new Scanner(System.in);
-		output.println("Podaj liczbê graczy");
+		output.writeObject("Podaj liczbï¿½ graczy");
 		int Number = in.nextInt();
 		return (Number < 2) ? 2 : Number;
 	}
@@ -135,15 +135,17 @@ public class Eights {
 	/**
 	 * Display state each player in console.
 	 */
-	public void displayState() {
+	public void displayState() throws Exception{
 		for(int i = 0; i < players.size(); ++i) {
 			players.getPlayer(i).display();
 		}
-		
-		discardPile.display();
-		
-		output.println("Stos ciagniecia:");
-		output.println(drawPile.size() + " kart");
+		try {
+			discardPile.display();
+		}catch(Exception e){
+			output.writeObject("error on display method");
+		}
+		output.writeObject("Stos ciagniecia:");
+		output.writeObject(drawPile.size() + " kart");
 	}
 	/**
 	 * Wait for <code>Enter</code> in console.
@@ -164,19 +166,24 @@ public class Eights {
 
 				discardPile.addCard(next);
 
-				output.println(player.getName() + " gra " + next);
-				output.println();
+				output.writeObject(player.getName() + " gra " + next);
+
 			} catch (Exception ie) {
-				output.println("Cos poszlo nie tak");
+				try{
+					output.writeObject("Cos poszlo nie tak");
+				}catch(Exception e){
+
+				}
+
 			}
 		}
 		else {
 			Card prev = discardPile.last();
 			Card next = player.play(this, prev);
 			discardPile.addCard(next);
-
-			output.println(player.getName() + " gra " + next);
-			output.println();
+			try {
+				output.writeObject(player.getName() + " gra " + next);
+			}catch(Exception e){}
 		}
 	}
 	/**
@@ -186,14 +193,18 @@ public class Eights {
 		Player player = players.getPlayer(0);
 		
 		while(!isDone()){
-			displayState();
+			try {
+				displayState();
+			}catch(Exception e){}
 			//waitForUser();
 			takeTurn(player);
 			player = nextPlayer(player);
 		}
 		
 		for(int i = 0; i < players.size(); ++i) {
-			players.getPlayer(i).displayScore();
+			try {
+				players.getPlayer(i).displayScore();
+			}catch (Exception e){}
 		}
 		
 	}
