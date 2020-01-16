@@ -1,0 +1,9 @@
+.list-cell {
+    -fx-background-color: rgba(0,128,0,0.8);
+}
+.list-view {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-line-spacing: 1.5em;
+}

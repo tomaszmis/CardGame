@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ScoresController">
+   <children>
+      <ImageView fx:id="bg" fitHeight="550.0" fitWidth="800.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@bg/bg.jpg" />
+         </image>
+      </ImageView>
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <VBox>
+                     <children>
+                        <Button fx:id="backButton" mnemonicParsing="false" onAction="#setbackButAction" text="Wróc" />
+                     </children>
+                  </VBox>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox fx:id="hboxscore" alignment="CENTER" layoutX="43.0" layoutY="14.0" prefHeight="550.0" prefWidth="771.0" stylesheets="@list.css" AnchorPane.bottomAnchor="-14.0" AnchorPane.leftAnchor="43.0" AnchorPane.rightAnchor="-14.0" AnchorPane.topAnchor="14.0">
+         <children>
+            <AnchorPane fx:id="anchpanel" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <VBox fx:id="vboxonescore" alignment="BASELINE_CENTER" layoutX="164.0" layoutY="14.0" maxHeight="388.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="100.0" prefWidth="300.0">
+                     <children>
+                        <Label text="Tabela Wyników" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold Italic" size="24.0" />
+                           </font>
+                        </Label>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <Label layoutX="28.0" layoutY="17.0" text="Numer" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold Italic" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="311.0" layoutY="17.0" minHeight="-Infinity" text="Liczba punktów" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold Italic" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Label contentDisplay="BOTTOM" layoutX="170.0" layoutY="17.0" prefHeight="17.0" prefWidth="46.0" text="Nick" textFill="WHITE">
+                                 <font>
+                                    <Font name="System Bold Italic" size="12.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="vboxtwoscore" alignment="CENTER" layoutX="82.0" layoutY="190.0" maxHeight="200.0" AnchorPane.topAnchor="190.0">
+                     <children>
+                        <AnchorPane prefHeight="200.0" prefWidth="689.0">
+                           <children>
+                              <ListView fx:id="scores" layoutX="86.0" layoutY="-42.0" maxHeight="200.0" prefHeight="200.0" prefWidth="423.0" />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+         </children>
+         <effect>
+            <DropShadow />
+         </effect>
+      </HBox>
+   </children>
+</AnchorPane>
