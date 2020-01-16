@@ -34,7 +34,7 @@ public class Server {
                 while (true) {
                     Player player = new Player(nick,output,input);
                     output.println("Twoj nick to: " + player.getPlayerName());
-                    output.println("Jeśli nie masz odpowiedniej karty w talji podaj 99. Zaczynamy!");
+                    output.println("Jeśli nie masz odpowiedniej karty w talii podaj 99. Zaczynamy!");
                     Eights game = new Eights(player,3,output);
                     //Eights game = new Eights(output);
                     game.playGame();
